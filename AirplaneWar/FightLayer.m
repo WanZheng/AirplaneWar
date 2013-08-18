@@ -5,7 +5,6 @@
 //
 
 
-#import <CoreGraphics/CoreGraphics.h>
 #import "FightLayer.h"
 #import "PlayerSprite.h"
 #import "EnemySprite.h"
@@ -13,10 +12,11 @@
 #import "GameOverLayer.h"
 #import "SimpleAudioEngine.h"
 
-const int kZOrderBackground = 1;
-const int kZOrderBullet = 2;
-const int kZOrderEnemy = 3;
-const int kZOrderPlayer = 4;
+const int kZOrderBackground = 0;
+const int kZOrderBullet = 20;
+const int kZOrderEnemy = 30;
+const int kZOrderPlayer = 40;
+const int kZOrderScoreLabel = 50;
 
 @interface FightLayer()
 @property (nonatomic) BOOL gameIsOver;
@@ -33,6 +33,10 @@ const int kZOrderPlayer = 4;
 
 // bullet
 @property (nonatomic) Bullet *bullet;
+
+// score
+@property (nonatomic) int score;
+@property (nonatomic) CCLabelBMFont *scoreLabel;
 
 // background
 //   TODO: 用两个sprite实现滚动背景。 有更好的方法吗?
@@ -64,9 +68,26 @@ const int kZOrderPlayer = 4;
 
         _enemies = [NSMutableArray array];
 
-        // _mute = YES;
+        [self setupScoreLabel];
+
+        _mute = YES;
     }
     return self;
+}
+
+- (void)setupScoreLabel {
+    CGSize winSize = [CCDirector sharedDirector].winSize;
+
+    _scoreLabel = [CCLabelBMFont labelWithString:@"" fntFile:@"font.fnt"];
+    _scoreLabel.color = ccc3(50, 50, 50);
+    _scoreLabel.opacity = 128;
+    _scoreLabel.alignment = kCCTextAlignmentLeft;
+    _scoreLabel.zOrder = kZOrderScoreLabel;
+    _scoreLabel.scale = 0.4f;
+    _scoreLabel.anchorPoint = ccp(0, 0);
+    _scoreLabel.position = ccp(20, winSize.height - _scoreLabel.contentSize.height - 20);
+
+    [self addChild:_scoreLabel];
 }
 
 - (void)setupBackground {
@@ -142,6 +163,9 @@ const int kZOrderPlayer = 4;
     if (hitIndex != NSUIntegerMax) {
         EnemySprite *enemy = [self.enemies objectAtIndex:hitIndex];
         if ([enemy onHitWithDamage:self.bullet.damage]) {
+            self.score += enemy.score;
+            self.scoreLabel.string = [NSString stringWithFormat:@"%d", self.score];
+
             [enemy removeFromParent];
             [self.enemies removeObjectAtIndex:hitIndex];
         }

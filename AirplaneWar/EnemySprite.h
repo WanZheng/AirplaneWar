@@ -14,6 +14,8 @@ typedef NS_ENUM(NSInteger , EnemySize) {
 };
 
 @interface EnemySprite : CCSprite
+@property (nonatomic) int score;
+
 - (id)initWithSize:(EnemySize)size hp:(int)hp;
 
 // Return:

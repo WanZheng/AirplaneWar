@@ -37,6 +37,18 @@
     if (self) {
         self.scale = kTextureScale;
 
+        switch (size) {
+            case SMALL_PLANE:
+                _score = 1000;
+                break;
+            case MEDIUM_PLANE:
+                _score = 6000;
+            case BIG_PLANE:
+            default:
+                _score = 30000;
+                break;
+        }
+
         _hp = hp;
 
         CGSize winSize = [CCDirector sharedDirector].winSize;
