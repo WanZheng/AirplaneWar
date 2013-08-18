@@ -9,6 +9,6 @@
 
 
 // TODO: use partial
-@interface Projectile : CCSprite
+@interface Bullet : CCSprite
 @property (nonatomic) int damage;
 @end

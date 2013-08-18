@@ -5,14 +5,14 @@
 //
 
 
-#import "Projectile.h"
+#import "Bullet.h"
 
 
-@implementation Projectile
+@implementation Bullet
 
 - (id)init
 {
-    self = [super initWithFile:@"projectile.png"];
+    self = [super initWithFile:@"bullet.png"];
     if (self) {
         _damage = 1;
     }

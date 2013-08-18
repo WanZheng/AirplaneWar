@@ -1,7 +1,10 @@
-*~
+/3rd-party/
+
 .idea/
+project.xcworkspace/
+xcuserdata/
+
+*~
 
 .DS_Store
 
-project.xcworkspace/
-xcuserdata/

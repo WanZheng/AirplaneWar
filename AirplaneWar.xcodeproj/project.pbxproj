@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		181873C1BBDFB24F0C121503 /* Projectile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1818703FFB1D5EFABF8DB840 /* Projectile.m */; };
+		18187130AB81E9557C3378AF /* game_music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 181872D35510EE330C196710 /* game_music.mp3 */; };
+		181873C1BBDFB24F0C121503 /* Bullet.m in Sources */ = {isa = PBXBuildFile; fileRef = 1818703FFB1D5EFABF8DB840 /* Bullet.m */; };
 		18187578DA15CFB74787EBC7 /* FightLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1818794441DA9329222B5640 /* FightLayer.m */; };
 		181876212EFDE0CE2C4A99E5 /* GameOverLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 18187E2FE22EB8C6402BC670 /* GameOverLayer.m */; };
 		18187757DB8E71DDD3D8A283 /* EnemySprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 1818766E15287100778A378B /* EnemySprite.m */; };
@@ -150,21 +151,25 @@
 		8B995D5617C0A29E00074396 /* enemy.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B995D4D17C0A29E00074396 /* enemy.png */; };
 		8B995D5717C0A29E00074396 /* player-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B995D4E17C0A29E00074396 /* player-hd.png */; };
 		8B995D5817C0A29E00074396 /* player.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B995D4F17C0A29E00074396 /* player.png */; };
-		8B995D5917C0A29E00074396 /* projectile-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B995D5017C0A29E00074396 /* projectile-hd.png */; };
-		8B995D5A17C0A29E00074396 /* projectile.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B995D5117C0A29E00074396 /* projectile.png */; };
 		8B995D5B17C0A29E00074396 /* background-music-aac.caf in Resources */ = {isa = PBXBuildFile; fileRef = 8B995D5317C0A29E00074396 /* background-music-aac.caf */; };
 		8B995D5C17C0A29E00074396 /* pew-pew-lei.caf in Resources */ = {isa = PBXBuildFile; fileRef = 8B995D5417C0A29E00074396 /* pew-pew-lei.caf */; };
+		8B995D5F17C0CCEC00074396 /* bullet-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B995D5D17C0CCEC00074396 /* bullet-hd.png */; };
+		8B995D6017C0CCEC00074396 /* bullet.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B995D5E17C0CCEC00074396 /* bullet.png */; };
+		8B995D6317C0CCF300074396 /* bullet.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8B995D6117C0CCF300074396 /* bullet.mp3 */; };
+		8B995D6417C0CCF300074396 /* game_over.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8B995D6217C0CCF300074396 /* game_over.mp3 */; };
+		8B995D6817C0D18700074396 /* shoot_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B995D6617C0D18700074396 /* shoot_background.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1818703FFB1D5EFABF8DB840 /* Projectile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Projectile.m; sourceTree = "<group>"; };
+		1818703FFB1D5EFABF8DB840 /* Bullet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bullet.m; sourceTree = "<group>"; };
 		18187214A78721F7E4E8DDE9 /* FightLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FightLayer.h; sourceTree = "<group>"; };
+		181872D35510EE330C196710 /* game_music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = game_music.mp3; sourceTree = "<group>"; };
 		1818766E15287100778A378B /* EnemySprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnemySprite.m; sourceTree = "<group>"; };
 		181878FC26E9120A1E09FDB7 /* PlayerSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerSprite.m; sourceTree = "<group>"; };
 		1818794441DA9329222B5640 /* FightLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FightLayer.m; sourceTree = "<group>"; };
 		18187BEE74B97DC9AE12AE88 /* EnemySprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnemySprite.h; sourceTree = "<group>"; };
 		18187D5F8461BA4A79F0AE95 /* PlayerSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerSprite.h; sourceTree = "<group>"; };
-		18187E0E3799661F013BB5FC /* Projectile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Projectile.h; sourceTree = "<group>"; };
+		18187E0E3799661F013BB5FC /* Bullet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bullet.h; sourceTree = "<group>"; };
 		18187E2FE22EB8C6402BC670 /* GameOverLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverLayer.m; sourceTree = "<group>"; };
 		18187FC202DA6CEF8EBA4FFA /* GameOverLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverLayer.h; sourceTree = "<group>"; };
 		8B995B8317C0959900074396 /* AirplaneWar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AirplaneWar.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -452,10 +457,13 @@
 		8B995D4D17C0A29E00074396 /* enemy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enemy.png; sourceTree = "<group>"; };
 		8B995D4E17C0A29E00074396 /* player-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "player-hd.png"; sourceTree = "<group>"; };
 		8B995D4F17C0A29E00074396 /* player.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player.png; sourceTree = "<group>"; };
-		8B995D5017C0A29E00074396 /* projectile-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "projectile-hd.png"; sourceTree = "<group>"; };
-		8B995D5117C0A29E00074396 /* projectile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = projectile.png; sourceTree = "<group>"; };
 		8B995D5317C0A29E00074396 /* background-music-aac.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "background-music-aac.caf"; sourceTree = "<group>"; };
 		8B995D5417C0A29E00074396 /* pew-pew-lei.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pew-pew-lei.caf"; sourceTree = "<group>"; };
+		8B995D5D17C0CCEC00074396 /* bullet-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bullet-hd.png"; sourceTree = "<group>"; };
+		8B995D5E17C0CCEC00074396 /* bullet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bullet.png; sourceTree = "<group>"; };
+		8B995D6117C0CCF300074396 /* bullet.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bullet.mp3; sourceTree = "<group>"; };
+		8B995D6217C0CCF300074396 /* game_over.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = game_over.mp3; sourceTree = "<group>"; };
+		8B995D6617C0D18700074396 /* shoot_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shoot_background.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -531,8 +539,8 @@
 				18187D5F8461BA4A79F0AE95 /* PlayerSprite.h */,
 				1818766E15287100778A378B /* EnemySprite.m */,
 				18187BEE74B97DC9AE12AE88 /* EnemySprite.h */,
-				1818703FFB1D5EFABF8DB840 /* Projectile.m */,
-				18187E0E3799661F013BB5FC /* Projectile.h */,
+				1818703FFB1D5EFABF8DB840 /* Bullet.m */,
+				18187E0E3799661F013BB5FC /* Bullet.h */,
 				18187E2FE22EB8C6402BC670 /* GameOverLayer.m */,
 				18187FC202DA6CEF8EBA4FFA /* GameOverLayer.h */,
 			);
@@ -925,12 +933,13 @@
 		8B995D4B17C0A29E00074396 /* Art */ = {
 			isa = PBXGroup;
 			children = (
+				8B995D6617C0D18700074396 /* shoot_background.png */,
+				8B995D5D17C0CCEC00074396 /* bullet-hd.png */,
+				8B995D5E17C0CCEC00074396 /* bullet.png */,
 				8B995D4C17C0A29E00074396 /* enemy-hd.png */,
 				8B995D4D17C0A29E00074396 /* enemy.png */,
 				8B995D4E17C0A29E00074396 /* player-hd.png */,
 				8B995D4F17C0A29E00074396 /* player.png */,
-				8B995D5017C0A29E00074396 /* projectile-hd.png */,
-				8B995D5117C0A29E00074396 /* projectile.png */,
 			);
 			name = Art;
 			path = Resources/Art;
@@ -939,8 +948,11 @@
 		8B995D5217C0A29E00074396 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				8B995D6117C0CCF300074396 /* bullet.mp3 */,
+				8B995D6217C0CCF300074396 /* game_over.mp3 */,
 				8B995D5317C0A29E00074396 /* background-music-aac.caf */,
 				8B995D5417C0A29E00074396 /* pew-pew-lei.caf */,
+				181872D35510EE330C196710 /* game_music.mp3 */,
 			);
 			name = Sounds;
 			path = Resources/Sounds;
@@ -1013,10 +1025,14 @@
 				8B995D5617C0A29E00074396 /* enemy.png in Resources */,
 				8B995D5717C0A29E00074396 /* player-hd.png in Resources */,
 				8B995D5817C0A29E00074396 /* player.png in Resources */,
-				8B995D5917C0A29E00074396 /* projectile-hd.png in Resources */,
-				8B995D5A17C0A29E00074396 /* projectile.png in Resources */,
 				8B995D5B17C0A29E00074396 /* background-music-aac.caf in Resources */,
 				8B995D5C17C0A29E00074396 /* pew-pew-lei.caf in Resources */,
+				18187130AB81E9557C3378AF /* game_music.mp3 in Resources */,
+				8B995D5F17C0CCEC00074396 /* bullet-hd.png in Resources */,
+				8B995D6017C0CCEC00074396 /* bullet.png in Resources */,
+				8B995D6317C0CCF300074396 /* bullet.mp3 in Resources */,
+				8B995D6417C0CCF300074396 /* game_over.mp3 in Resources */,
+				8B995D6817C0D18700074396 /* shoot_background.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1142,7 +1158,7 @@
 				18187578DA15CFB74787EBC7 /* FightLayer.m in Sources */,
 				18187F3E886F40F7B849AC8A /* PlayerSprite.m in Sources */,
 				18187757DB8E71DDD3D8A283 /* EnemySprite.m in Sources */,
-				181873C1BBDFB24F0C121503 /* Projectile.m in Sources */,
+				181873C1BBDFB24F0C121503 /* Bullet.m in Sources */,
 				181876212EFDE0CE2C4A99E5 /* GameOverLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,13 +8,14 @@
 #import "FightLayer.h"
 #import "PlayerSprite.h"
 #import "EnemySprite.h"
-#import "Projectile.h"
+#import "Bullet.h"
 #import "GameOverLayer.h"
 #import "SimpleAudioEngine.h"
 
 
 @interface FightLayer()
 @property (nonatomic) BOOL gameIsOver;
+@property (nonatomic) BOOL mute;
 
 // player
 @property (nonatomic) PlayerSprite *player;
@@ -25,8 +26,12 @@
 // enemies
 @property (nonatomic) NSMutableArray *enemies; // array of EnemySprite
 
-// projectile
-@property (nonatomic) Projectile *projectile;
+// bullet
+@property (nonatomic) Bullet *bullet;
+
+// background
+//   TODO: 用两个sprite实现滚动背景。 有更好的方法吗?
+@property (nonatomic) NSMutableArray *backgrounds; // Two CCSprint
 @end
 
 @implementation FightLayer
@@ -45,13 +50,32 @@
 {
     self = [super initWithColor:ccc4(255, 255, 255, 255)];
     if (self) {
+        [self setupBackground];
+
         _player = [[PlayerSprite alloc] init];
         [self addChild:_player];
         _playerPositionWhenTouchBegin = self.player.position;
 
         _enemies = [NSMutableArray array];
+
+        _mute = YES;
     }
     return self;
+}
+
+- (void)setupBackground {
+    CGSize winSize = [CCDirector sharedDirector].winSize;
+
+    self.backgrounds = [NSMutableArray arrayWithCapacity:2];
+    for (int i=0; i<2; i++) {
+        CCSprite *background = [CCSprite spriteWithFile:@"shoot_background.png" rect:CGRectMake(0, 75, 480, 852)];
+        background.anchorPoint = ccp(0, 0);
+        background.scale = winSize.width / background.contentSize.width;
+        background.position = ccp(0, i * background.contentSize.height * background.scale);
+        [self addChild:background];
+
+        [self.backgrounds addObject:background];
+    }
 }
 
 - (void)onEnterTransitionDidFinish
@@ -63,7 +87,9 @@
     [self schedule:@selector(produceEnemy) interval:1];
     [self schedule:@selector(onUpdate)];
 
-    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background-music-aac.caf"];
+    if (! self.mute) {
+        [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"game_music.mp3"];
+    }
 }
 
 #pragma mark - game logic
@@ -75,12 +101,14 @@
     }
 
     [self updatePlayer];
+
+    [self scrollBackground];
 }
 
 - (void)detectCollision
 {
     CGRect playerBox = self.player.boundingBox;
-    CGRect projectileBox = self.projectile.boundingBox;
+    CGRect bulletBox = self.bullet.boundingBox;
     NSUInteger hitIndex = NSUIntegerMax;
     NSUInteger count = self.enemies.count;
 
@@ -92,23 +120,23 @@
             return;
         }
 
-        if (hitIndex != NSUIntegerMax || self.projectile == nil) {
+        if (hitIndex != NSUIntegerMax || self.bullet == nil) {
             continue;
         }
-        if (CGRectIntersectsRect(enemyBox, projectileBox)) {
+        if (CGRectIntersectsRect(enemyBox, bulletBox)) {
             hitIndex = i;
         }
     }
 
     if (hitIndex != NSUIntegerMax) {
         EnemySprite *enemy = [self.enemies objectAtIndex:hitIndex];
-        if ([enemy onHitWithDamage:self.projectile.damage]) {
+        if ([enemy onHitWithDamage:self.bullet.damage]) {
             [enemy removeFromParent];
             [self.enemies removeObjectAtIndex:hitIndex];
         }
 
-        [self.projectile removeFromParent];
-        self.projectile = nil;
+        [self.bullet removeFromParent];
+        self.bullet = nil;
     }
 }
 
@@ -142,23 +170,38 @@
 
 - (void)shoot
 {
-    if (self.projectile) {
+    if (self.bullet) {
         return;
     }
 
-    self.projectile = [[Projectile alloc] init];
-    self.projectile.position = ccp(self.player.position.x, self.player.position.y + self.player.contentSize.height/2);
-    [self addChild:self.projectile];
+    self.bullet = [[Bullet alloc] init];
+    self.bullet.position = ccp(self.player.position.x, self.player.position.y + self.player.contentSize.height/2);
+    [self addChild:self.bullet];
 
     CGSize winSize = [CCDirector sharedDirector].winSize;
     ccTime actualDuration = 0.3;
     CCMoveTo *actionMove = [CCMoveTo actionWithDuration:actualDuration
-                                               position:ccp(self.projectile.position.x, winSize.height+self.projectile.contentSize.height/2)];
+                                               position:ccp(self.bullet.position.x, winSize.height+self.bullet.contentSize.height/2)];
     CCCallBlockN *actionMoveDone = [CCCallBlockN actionWithBlock:^(CCNode *node){
         [node removeFromParentAndCleanup:YES];
-        self.projectile = nil;
+        self.bullet = nil;
     }];
-    [self.projectile runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
+    [self.bullet runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
+
+    if (! self.mute) {
+        [[SimpleAudioEngine sharedEngine] playEffect:@"bullet.mp3"];
+    }
+}
+
+- (void)scrollBackground {
+    for (CCSprite *background in self.backgrounds) {
+        CGFloat y = background.position.y;
+        y -= 1;
+        if (y < -background.boundingBox.size.height) {
+            y += 2 * background.boundingBox.size.height;
+        }
+        background.position = ccp(0, y);
+    }
 }
 
 - (void)onGameOver
@@ -168,7 +211,10 @@
     }
     self.gameIsOver = TRUE;
 
-    [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+    if (! self.mute) {
+        [[SimpleAudioEngine sharedEngine] playEffect:@"game_over.mp3"];
+        [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+    }
     [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5 scene:[GameOverLayer scene]]];
 }
 
