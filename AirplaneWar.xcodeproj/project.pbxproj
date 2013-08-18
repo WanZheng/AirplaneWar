@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		18187130AB81E9557C3378AF /* game_music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 181872D35510EE330C196710 /* game_music.mp3 */; };
 		181873C1BBDFB24F0C121503 /* Bullet.m in Sources */ = {isa = PBXBuildFile; fileRef = 1818703FFB1D5EFABF8DB840 /* Bullet.m */; };
+		1818742E16F00EB6CBDC2545 /* TextureConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 18187AE15E570262E0189419 /* TextureConfig.m */; };
+		181875257B4E7AF97E04C6D5 /* shoot.png in Resources */ = {isa = PBXBuildFile; fileRef = 181877293EAA2D7C6E75727D /* shoot.png */; };
 		18187578DA15CFB74787EBC7 /* FightLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1818794441DA9329222B5640 /* FightLayer.m */; };
 		181876212EFDE0CE2C4A99E5 /* GameOverLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 18187E2FE22EB8C6402BC670 /* GameOverLayer.m */; };
 		18187757DB8E71DDD3D8A283 /* EnemySprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 1818766E15287100778A378B /* EnemySprite.m */; };
@@ -165,8 +167,11 @@
 		18187214A78721F7E4E8DDE9 /* FightLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FightLayer.h; sourceTree = "<group>"; };
 		181872D35510EE330C196710 /* game_music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = game_music.mp3; sourceTree = "<group>"; };
 		1818766E15287100778A378B /* EnemySprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnemySprite.m; sourceTree = "<group>"; };
+		181876B7BF56C490F080CE70 /* TextureConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureConfig.h; sourceTree = "<group>"; };
+		181877293EAA2D7C6E75727D /* shoot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shoot.png; sourceTree = "<group>"; };
 		181878FC26E9120A1E09FDB7 /* PlayerSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerSprite.m; sourceTree = "<group>"; };
 		1818794441DA9329222B5640 /* FightLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FightLayer.m; sourceTree = "<group>"; };
+		18187AE15E570262E0189419 /* TextureConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextureConfig.m; sourceTree = "<group>"; };
 		18187BEE74B97DC9AE12AE88 /* EnemySprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnemySprite.h; sourceTree = "<group>"; };
 		18187D5F8461BA4A79F0AE95 /* PlayerSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerSprite.h; sourceTree = "<group>"; };
 		18187E0E3799661F013BB5FC /* Bullet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bullet.h; sourceTree = "<group>"; };
@@ -543,6 +548,8 @@
 				18187E0E3799661F013BB5FC /* Bullet.h */,
 				18187E2FE22EB8C6402BC670 /* GameOverLayer.m */,
 				18187FC202DA6CEF8EBA4FFA /* GameOverLayer.h */,
+				18187AE15E570262E0189419 /* TextureConfig.m */,
+				181876B7BF56C490F080CE70 /* TextureConfig.h */,
 			);
 			path = AirplaneWar;
 			sourceTree = "<group>";
@@ -940,6 +947,7 @@
 				8B995D4D17C0A29E00074396 /* enemy.png */,
 				8B995D4E17C0A29E00074396 /* player-hd.png */,
 				8B995D4F17C0A29E00074396 /* player.png */,
+				181877293EAA2D7C6E75727D /* shoot.png */,
 			);
 			name = Art;
 			path = Resources/Art;
@@ -1033,6 +1041,7 @@
 				8B995D6317C0CCF300074396 /* bullet.mp3 in Resources */,
 				8B995D6417C0CCF300074396 /* game_over.mp3 in Resources */,
 				8B995D6817C0D18700074396 /* shoot_background.png in Resources */,
+				181875257B4E7AF97E04C6D5 /* shoot.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1160,6 +1169,7 @@
 				18187757DB8E71DDD3D8A283 /* EnemySprite.m in Sources */,
 				181873C1BBDFB24F0C121503 /* Bullet.m in Sources */,
 				181876212EFDE0CE2C4A99E5 /* GameOverLayer.m in Sources */,
+				1818742E16F00EB6CBDC2545 /* TextureConfig.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

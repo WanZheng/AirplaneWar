@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSInteger , EnemySize) {
-    SMALL_PLANE,
+    SMALL_PLANE = 0,
     MEDIUM_PLANE,
     BIG_PLANE
 };

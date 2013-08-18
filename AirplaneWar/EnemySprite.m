@@ -6,6 +6,7 @@
 
 
 #import "EnemySprite.h"
+#import "TextureConfig.h"
 
 @interface EnemySprite()
 @property (nonatomic) int hp;
@@ -15,20 +16,27 @@
 - (id)initWithSize:(EnemySize)size hp:(int)hp
 {
     NSString *file;
+    CGRect rect;
     switch (size) {
         case SMALL_PLANE:
-            file = @"enemy.png";
+            file = @"shoot.png";
+            rect = CGRectMake(534, 612, 57, 43);
             break;
         case MEDIUM_PLANE:
-            file = @"enemy.png";
+            file = @"shoot.png";
+            rect = CGRectMake(0, 0, 69, 99);
             break;
         case BIG_PLANE:
-            file = @"enemy.png";
+        default:
+            file = @"shoot.png";
+            rect = CGRectMake(335, 750, 169, 258);
             break;
     }
-    self = [super initWithFile:file];
+    self = [super initWithFile:file rect:rect];
 
     if (self) {
+        self.scale = kTextureScale;
+
         _hp = hp;
 
         CGSize winSize = [CCDirector sharedDirector].winSize;

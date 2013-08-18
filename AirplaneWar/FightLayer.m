@@ -5,6 +5,7 @@
 //
 
 
+#import <CoreGraphics/CoreGraphics.h>
 #import "FightLayer.h"
 #import "PlayerSprite.h"
 #import "EnemySprite.h"
@@ -12,6 +13,10 @@
 #import "GameOverLayer.h"
 #import "SimpleAudioEngine.h"
 
+const int kZOrderBackground = 1;
+const int kZOrderBullet = 2;
+const int kZOrderEnemy = 3;
+const int kZOrderPlayer = 4;
 
 @interface FightLayer()
 @property (nonatomic) BOOL gameIsOver;
@@ -53,12 +58,13 @@
         [self setupBackground];
 
         _player = [[PlayerSprite alloc] init];
+        _player.zOrder = kZOrderPlayer;
         [self addChild:_player];
         _playerPositionWhenTouchBegin = self.player.position;
 
         _enemies = [NSMutableArray array];
 
-        _mute = YES;
+        // _mute = YES;
     }
     return self;
 }
@@ -69,6 +75,7 @@
     self.backgrounds = [NSMutableArray arrayWithCapacity:2];
     for (int i=0; i<2; i++) {
         CCSprite *background = [CCSprite spriteWithFile:@"shoot_background.png" rect:CGRectMake(0, 75, 480, 852)];
+        background.zOrder = kZOrderBackground;
         background.anchorPoint = ccp(0, 0);
         background.scale = winSize.width / background.contentSize.width;
         background.position = ccp(0, i * background.contentSize.height * background.scale);
@@ -108,6 +115,10 @@
 - (void)detectCollision
 {
     CGRect playerBox = self.player.boundingBox;
+    // 撞了机翼没事
+    playerBox.origin.x += playerBox.size.width / 4;
+    playerBox.size.width /= 2;
+
     CGRect bulletBox = self.bullet.boundingBox;
     NSUInteger hitIndex = NSUIntegerMax;
     NSUInteger count = self.enemies.count;
@@ -148,10 +159,11 @@
 
 - (void)produceEnemy
 {
-    EnemySize size = SMALL_PLANE;
+    EnemySize size = (EnemySize) arc4random() % 3;
     int hp = arc4random() % 5 + 1;
 
     EnemySprite *enemy = [[EnemySprite alloc] initWithSize:size hp:hp];
+    enemy.zOrder = kZOrderEnemy;
     [self addChild:enemy];
     [self.enemies addObject:enemy];
 
@@ -175,6 +187,7 @@
     }
 
     self.bullet = [[Bullet alloc] init];
+    self.bullet.zOrder = kZOrderBullet;
     self.bullet.position = ccp(self.player.position.x, self.player.position.y + self.player.contentSize.height/2);
     [self addChild:self.bullet];
 
