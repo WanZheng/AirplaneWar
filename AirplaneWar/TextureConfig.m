@@ -94,8 +94,10 @@
                 {
                     static NSArray *frames;
                     if (frames == nil) {
-                        frames = [NSArray arrayWithObject:
-                                [self frameWithRect:CGRectMake(432, 525, 69, 99)]];
+                        frames = [NSArray arrayWithObjects:
+                                [self frameWithRect:CGRectMake(0, 0, 69, 99)],
+                                [self frameWithRect:CGRectMake(432, 525, 69, 99)],
+                                nil];
                     }
                     return frames;
                 }
@@ -143,8 +145,11 @@
                 {
                     static NSArray *frames;
                     if (frames == nil) {
-                        frames = [NSArray arrayWithObject:
-                                [self frameWithRect:CGRectMake(166, 750, 169, 258)]];
+                        frames = [NSArray arrayWithObjects:
+                                [self frameWithRect:CGRectMake(335, 750, 169, 258)],
+                                [self frameWithRect:CGRectMake(504, 750, 169, 258)],
+                                [self frameWithRect:CGRectMake(166, 750, 169, 258)],
+                                nil];
                     }
                     return frames;
                 }

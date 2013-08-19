@@ -27,11 +27,11 @@
             score = 1000;
             break;
         case kEnemyModel2:
-            hp = 6;
+            hp = 4;
             score = 6000;
             break;
         case kEnemyModel3:
-            hp = 30;
+            hp = 10;
             score = 30000;
             break;
         default:
@@ -88,6 +88,9 @@
 
 - (void)onEnterState:(EnemyState)state {
     switch (state) {
+        case kEnemyStateDown:
+            [self stopActionByTag:1];
+            break;
         case kEnemyStateHit:
             self.timeSinceHit = 0;
             break;

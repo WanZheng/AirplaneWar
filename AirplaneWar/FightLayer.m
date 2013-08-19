@@ -216,8 +216,8 @@ const int kZOrderScoreLabel = 50;
     int x = (int)((arc4random() % (int)(winSize.width - enemy.contentSize.width)) + enemy.contentSize.width/2);
     enemy.position = ccp(x, winSize.height + enemy.contentSize.height/2);
 
-    int minDuration = 2;
-    int maxDuration = 4;
+    int minDuration = 3;
+    int maxDuration = 5;
     int actualDuration = (arc4random() % (maxDuration - minDuration)) + minDuration;
 
     CCMoveTo *actionMove = [CCMoveTo actionWithDuration:actualDuration
@@ -226,7 +226,9 @@ const int kZOrderScoreLabel = 50;
         [node removeFromParentAndCleanup:YES];
         [self.enemies removeObject:node];
     }];
-    [enemy runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
+    CCAction *action = [CCSequence actions:actionMove, actionMoveDone, nil];
+    action.tag = 1;
+    [enemy runAction:action];
 }
 
 - (void)shoot
