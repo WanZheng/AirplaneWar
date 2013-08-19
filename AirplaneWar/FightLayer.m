@@ -72,7 +72,7 @@ const int kZOrderScoreLabel = 50;
 
         [self setupScoreLabel];
 
-        _mute = YES;
+        // _mute = YES;
     }
     return self;
 }
@@ -223,7 +223,7 @@ const int kZOrderScoreLabel = 50;
     CCMoveTo *actionMove = [CCMoveTo actionWithDuration:actualDuration
                                                position:ccp(enemy.position.x, -enemy.contentSize.height/2)];
     CCCallBlockN *actionMoveDone = [CCCallBlockN actionWithBlock:^(CCNode *node){
-        [node removeFromParentAndCleanup:YES];
+        [node removeFromParent];
         [self.enemies removeObject:node];
     }];
     CCAction *action = [CCSequence actions:actionMove, actionMoveDone, nil];
