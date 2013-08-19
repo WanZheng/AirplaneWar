@@ -6,7 +6,8 @@
 
 
 #import <Foundation/Foundation.h>
+#import "MultiFrameSprite.h"
 
 
-@interface PlayerSprite : CCSprite
+@interface Player : MultiFrameSprite
 @end

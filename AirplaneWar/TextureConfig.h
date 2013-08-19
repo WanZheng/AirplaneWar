@@ -6,8 +6,14 @@
 
 
 #import <Foundation/Foundation.h>
+#import "Enemy.h"
 
 #define kTextureScale (320.0f/480.0f)
 
 @interface TextureConfig : NSObject
++ (TextureConfig *)instance;
+
+- (NSArray *)framesForPlayerNormal;
+
+- (NSArray *)framesForEnemy:(EnemyModel)model state:(EnemyState)state;
 @end

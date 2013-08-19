@@ -6,8 +6,8 @@
 
 
 #import "FightLayer.h"
-#import "PlayerSprite.h"
-#import "EnemySprite.h"
+#import "Player.h"
+#import "Enemy.h"
 #import "Bullet.h"
 #import "GameOverLayer.h"
 #import "SimpleAudioEngine.h"
@@ -23,13 +23,13 @@ const int kZOrderScoreLabel = 50;
 @property (nonatomic) BOOL mute;
 
 // player
-@property (nonatomic) PlayerSprite *player;
+@property (nonatomic) Player *player;
 @property (nonatomic) CGPoint playerPositionWhenTouchBegin;
 @property (nonatomic) CGPoint touchBeganPosition;
 @property (nonatomic) CGPoint touchMovedPosition;
 
 // enemies
-@property (nonatomic) NSMutableArray *enemies; // array of EnemySprite
+@property (nonatomic) NSMutableArray *enemies; // array of Enemy
 
 // bullet
 @property (nonatomic) Bullet *bullet;
@@ -61,8 +61,10 @@ const int kZOrderScoreLabel = 50;
     if (self) {
         [self setupBackground];
 
-        _player = [[PlayerSprite alloc] init];
+        _player = [[Player alloc] init];
         _player.zOrder = kZOrderPlayer;
+        CGSize winSize = [CCDirector sharedDirector].winSize;
+        _player.position = ccp(winSize.width/2, 10 + _player.contentSize.height/2);
         [self addChild:_player];
         _playerPositionWhenTouchBegin = self.player.position;
 
@@ -113,7 +115,7 @@ const int kZOrderScoreLabel = 50;
     [self setTouchEnabled:TRUE];
 
     [self schedule:@selector(produceEnemy) interval:1];
-    [self schedule:@selector(onUpdate)];
+    [self schedule:@selector(onUpdate:)];
 
     if (! self.mute) {
         [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"game_music.mp3"];
@@ -121,15 +123,36 @@ const int kZOrderScoreLabel = 50;
 }
 
 #pragma mark - game logic
-- (void)onUpdate
+- (void)onUpdate:(ccTime)dt
 {
+    // collision and shoot
     if (! self.gameIsOver) {
         [self detectCollision];
         [self shoot];
     }
 
-    [self updatePlayer];
+    // enemy
+    NSMutableArray *diedEnemy = [NSMutableArray array];
+    for (Enemy *enemy in self.enemies) {
+        if (! enemy.died) {
+            [enemy onUpdate:dt];
+            continue;
+        }
 
+        self.score += enemy.score;
+        self.scoreLabel.string = [NSString stringWithFormat:@"%d", self.score];
+
+        [enemy removeFromParent];
+        [diedEnemy addObject:enemy];
+    }
+    for (Enemy *enemy in diedEnemy) {
+        [self.enemies removeObject:enemy];
+    }
+
+    // player
+    [self updatePlayer:dt];
+
+    // background
     [self scrollBackground];
 }
 
@@ -145,7 +168,11 @@ const int kZOrderScoreLabel = 50;
     NSUInteger count = self.enemies.count;
 
     for (NSUInteger i=0; i<count; i++) {
-        EnemySprite *enemy = [self.enemies objectAtIndex:i];
+        Enemy *enemy = [self.enemies objectAtIndex:i];
+        if (enemy.state >= kEnemyStateDown) {
+            continue;
+        }
+
         CGRect enemyBox = enemy.boundingBox;
         if (CGRectIntersectsRect(enemyBox, playerBox)) {
             [self onGameOver];
@@ -161,35 +188,33 @@ const int kZOrderScoreLabel = 50;
     }
 
     if (hitIndex != NSUIntegerMax) {
-        EnemySprite *enemy = [self.enemies objectAtIndex:hitIndex];
-        if ([enemy onHitWithDamage:self.bullet.damage]) {
-            self.score += enemy.score;
-            self.scoreLabel.string = [NSString stringWithFormat:@"%d", self.score];
-
-            [enemy removeFromParent];
-            [self.enemies removeObjectAtIndex:hitIndex];
-        }
+        Enemy *enemy = [self.enemies objectAtIndex:hitIndex];
+        [enemy didHitWithDamage:self.bullet.damage];
 
         [self.bullet removeFromParent];
         self.bullet = nil;
     }
 }
 
-- (void)updatePlayer
-{
+- (void)updatePlayer:(ccTime)dt {
     self.player.position = ccpAdd(self.playerPositionWhenTouchBegin,
             ccpSub(self.touchMovedPosition, self.touchBeganPosition));
+    [self.player onUpdate:dt];
 }
 
 - (void)produceEnemy
 {
-    EnemySize size = (EnemySize) arc4random() % 3;
-    int hp = arc4random() % 5 + 1;
+    EnemyModel model = (EnemyModel) (arc4random() % kNumberOfEnemyModel);
 
-    EnemySprite *enemy = [[EnemySprite alloc] initWithSize:size hp:hp];
+    Enemy *enemy = [Enemy enemyWithModel:model];
     enemy.zOrder = kZOrderEnemy;
+
     [self addChild:enemy];
     [self.enemies addObject:enemy];
+
+    CGSize winSize = [CCDirector sharedDirector].winSize;
+    int x = (int)((arc4random() % (int)(winSize.width - enemy.contentSize.width)) + enemy.contentSize.width/2);
+    enemy.position = ccp(x, winSize.height + enemy.contentSize.height/2);
 
     int minDuration = 2;
     int maxDuration = 4;
