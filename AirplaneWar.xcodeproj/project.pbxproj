@@ -162,6 +162,8 @@
 		8B995D6317C0CCF300074396 /* bullet.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8B995D6117C0CCF300074396 /* bullet.mp3 */; };
 		8B995D6417C0CCF300074396 /* game_over.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8B995D6217C0CCF300074396 /* game_over.mp3 */; };
 		8B995D6817C0D18700074396 /* shoot_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B995D6617C0D18700074396 /* shoot_background.png */; };
+		8BB4863A17C27AAC00AEF748 /* shoot_background-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BB4863817C27AAC00AEF748 /* shoot_background-hd.png */; };
+		8BB4863B17C27AAC00AEF748 /* shoot-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BB4863917C27AAC00AEF748 /* shoot-hd.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -473,6 +475,8 @@
 		8B995D6117C0CCF300074396 /* bullet.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bullet.mp3; sourceTree = "<group>"; };
 		8B995D6217C0CCF300074396 /* game_over.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = game_over.mp3; sourceTree = "<group>"; };
 		8B995D6617C0D18700074396 /* shoot_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shoot_background.png; sourceTree = "<group>"; };
+		8BB4863817C27AAC00AEF748 /* shoot_background-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shoot_background-hd.png"; sourceTree = "<group>"; };
+		8BB4863917C27AAC00AEF748 /* shoot-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shoot-hd.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -944,6 +948,8 @@
 		8B995D4B17C0A29E00074396 /* Art */ = {
 			isa = PBXGroup;
 			children = (
+				8BB4863817C27AAC00AEF748 /* shoot_background-hd.png */,
+				8BB4863917C27AAC00AEF748 /* shoot-hd.png */,
 				8B995D6617C0D18700074396 /* shoot_background.png */,
 				8B995D5D17C0CCEC00074396 /* bullet-hd.png */,
 				8B995D5E17C0CCEC00074396 /* bullet.png */,
@@ -1050,6 +1056,8 @@
 				181875257B4E7AF97E04C6D5 /* shoot.png in Resources */,
 				18187A5FC85281A160F20914 /* font.fnt in Resources */,
 				18187CE7EB18DC91C35EF080 /* font.png in Resources */,
+				8BB4863A17C27AAC00AEF748 /* shoot_background-hd.png in Resources */,
+				8BB4863B17C27AAC00AEF748 /* shoot-hd.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
