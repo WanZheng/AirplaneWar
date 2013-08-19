@@ -36,7 +36,7 @@ const int kZOrderScoreLabel = 50;
 
 // score
 @property (nonatomic) int score;
-@property (nonatomic) CCLabelBMFont *scoreLabel;
+@property (nonatomic) CCNode<CCLabelProtocol> *scoreLabel;
 
 // background
 //   TODO: 用两个sprite实现滚动背景。 有更好的方法吗?
@@ -77,18 +77,28 @@ const int kZOrderScoreLabel = 50;
     return self;
 }
 
+#define USE_TTF 1
 - (void)setupScoreLabel {
     CGSize winSize = [CCDirector sharedDirector].winSize;
 
-    _scoreLabel = [CCLabelBMFont labelWithString:@"" fntFile:@"font.fnt"];
-    _scoreLabel.color = ccc3(50, 50, 50);
-    _scoreLabel.opacity = 128;
-    _scoreLabel.alignment = kCCTextAlignmentLeft;
-    _scoreLabel.zOrder = kZOrderScoreLabel;
-    _scoreLabel.scale = 0.4f;
-    _scoreLabel.anchorPoint = ccp(0, 0);
-    _scoreLabel.position = ccp(20, winSize.height - _scoreLabel.contentSize.height - 20);
+#ifndef USE_TTF
+    CCLabelBMFont *label = [CCLabelBMFont labelWithString:@"" fntFile:@"font.fnt"];
+    label.alignment = kCCTextAlignmentLeft;
+    label.scale = 0.4f;
+#else
+    CCLabelTTF *label = [CCLabelTTF labelWithString:@" " fontName:@"Marker Felt" fontSize:16];
+#endif
+    label.color = ccc3(50, 50, 50);
+    label.opacity = 128;
+    label.zOrder = kZOrderScoreLabel;
+    label.anchorPoint = ccp(0, 0);
+#ifndef USE_TTF
+    label.position = ccp(20, winSize.height - label.contentSize.height - 20);
+#else
+    label.position = ccp(16, winSize.height - label.contentSize.height - 12);
+#endif
 
+    _scoreLabel = label;
     [self addChild:_scoreLabel];
 }
 
