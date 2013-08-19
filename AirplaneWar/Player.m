@@ -15,7 +15,7 @@
     if (self) {
         self.scale = kTextureScale;
 
-        [self setMultiFrame:[TextureConfig instance].framesForPlayerNormal frequency:16 repeat:YES finishBlock:nil];
+        [self setMultiFrame:[TextureConfig instance].framesForPlayerNormal frequency:16 repeat:YES];
     }
     return self;
 }

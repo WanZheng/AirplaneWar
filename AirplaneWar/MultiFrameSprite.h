@@ -9,10 +9,12 @@
 
 
 @interface MultiFrameSprite : CCSprite
+@property (nonatomic, readonly) BOOL framesFinished;
+
 - (void)setSingleFrame:(CCSpriteFrame *)frame;
 
 // frames: array of CCSpriteFrame
-- (void)setMultiFrame:(NSArray *)frames frequency:(CGFloat)frequency repeat:(BOOL)repeat finishBlock:(void (^)(MultiFrameSprite *sprite))finishBlock;
+- (void)setMultiFrame:(NSArray *)frames frequency:(CGFloat)frequency repeat:(BOOL)repeat;
 
 - (void)onUpdate:(ccTime)delta;
 @end

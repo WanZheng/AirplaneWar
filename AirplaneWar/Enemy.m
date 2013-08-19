@@ -87,31 +87,44 @@
 }
 
 - (void)onEnterState:(EnemyState)state {
+    switch (state) {
+        case kEnemyStateHit:
+            self.timeSinceHit = 0;
+            break;
+        case kEnemyStateDied:
+            [self setSingleFrame:nil];
+            return;
+        default:
+            break;
+    }
+
     NSArray *frames = [[TextureConfig instance] framesForEnemy:self.model state:self.state];
     if (frames.count == 1) {
         [self setSingleFrame:frames[0]];
     }else{
         if (state != kEnemyStateDown) {
-            [self setMultiFrame:frames frequency:16 repeat:YES finishBlock:nil];
+            [self setMultiFrame:frames frequency:16 repeat:YES];
         }else{
-            [self setMultiFrame:frames frequency:16 repeat:NO finishBlock:^(MultiFrameSprite *sprite){
-                Enemy *enemy = (Enemy *)sprite;
-                [enemy transToState:kEnemyStateDied];
-            }];
+            [self setMultiFrame:frames frequency:16 repeat:NO];
         }
-    }
-
-    if (state == kEnemyStateHit) {
-        self.timeSinceHit = 0;
     }
 }
 
 - (void)onUpdate:(ccTime)dt {
-    if (self.state == kEnemyStateHit) {
-        self.timeSinceHit += dt;
-        if (self.timeSinceHit - self.timeLastHit > 0.5){
-            [self transToState:kEnemyStateNormal];
-        }
+    switch (self.state) {
+        case kEnemyStateHit:
+            self.timeSinceHit += dt;
+            if (self.timeSinceHit - self.timeLastHit > 0.5){
+                [self transToState:kEnemyStateNormal];
+            }
+            break;
+        case kEnemyStateDown:
+            if (self.framesFinished) {
+                [self transToState:kEnemyStateDied];
+            }
+            break;
+        default:
+            break;
     }
 
     [super onUpdate:dt];

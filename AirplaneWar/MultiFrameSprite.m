@@ -15,32 +15,28 @@
 @property (nonatomic) ccTime delta;
 @property (nonatomic) ccTime updateInterval;
 @property (nonatomic) BOOL repeat;
-@property (nonatomic, strong) void (^finishBlock)(MultiFrameSprite *);
-@property (nonatomic) BOOL finished;
 @end
 
 @implementation MultiFrameSprite
 - (void)setSingleFrame:(CCSpriteFrame *)frame {
     self.frames = nil;
-    self.finishBlock = nil;
 
     self.isMultiFrame = NO;
-    self.finished = NO;
+    _framesFinished = NO;
 
     [self setDisplayFrame:frame];
 }
 
-- (void)setMultiFrame:(NSArray *)frames frequency:(CGFloat)frequency repeat:(BOOL)repeat finishBlock:(void (^)(MultiFrameSprite *))finishBlock {
+- (void)setMultiFrame:(NSArray *)frames frequency:(CGFloat)frequency repeat:(BOOL)repeat {
     NSAssert(frequency > 0, @"invalid argument");
     NSAssert(frames.count > 1, @"invalid argument");
 
     self.frames = frames;
     self.updateInterval = 1.0f / frequency;
     self.repeat = repeat;
-    self.finishBlock = finishBlock;
 
     self.isMultiFrame = YES;
-    self.finished = NO;
+    _framesFinished = NO;
     self.delta = 0;
     self.index = 0;
 
@@ -48,7 +44,7 @@
 }
 
 - (void)onUpdate:(ccTime)delta {
-    if (!self.isMultiFrame || self.finished) {
+    if (!self.isMultiFrame || self.framesFinished) {
         return;
     }
 
@@ -64,7 +60,7 @@
     }
 
     if (!self.repeat && self.index >= self.frames.count) {
-        [self.finishBlock self];
+        _framesFinished = YES;
         return;
     }
 
