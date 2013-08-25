@@ -5,6 +5,7 @@
 //
 
 
+#import <CoreGraphics/CoreGraphics.h>
 #import "FightLayer.h"
 #import "Player.h"
 #import "Enemy.h"
@@ -29,6 +30,7 @@ const int kZOrderScoreLabel = 50;
 @property (nonatomic) CGPoint playerPositionWhenTouchBegin;
 @property (nonatomic) CGPoint touchBeganPosition;
 @property (nonatomic) CGPoint touchMovedPosition;
+@property (nonatomic) CGPoint revisedOffset;
 
 // enemies
 @property (nonatomic) NSMutableArray *enemies; // array of Enemy
@@ -216,8 +218,33 @@ const int kZOrderScoreLabel = 50;
 }
 
 - (void)updatePlayer:(ccTime)dt {
-    self.player.position = ccpAdd(self.playerPositionWhenTouchBegin,
-            ccpSub(self.touchMovedPosition, self.touchBeganPosition));
+    self.player.position =
+            ccpAdd(self.revisedOffset,
+                    ccpAdd(self.playerPositionWhenTouchBegin,
+                            ccpSub(self.touchMovedPosition, self.touchBeganPosition)));
+    CGFloat x = self.player.position.x;
+    CGFloat y = self.player.position.y;
+    CGFloat w = self.player.contentSize.width/4; // 去掉空白, 所以是/4， 而不是/2
+    CGFloat h = self.player.contentSize.height/4;
+    CGFloat offsetX = 0, offsetY = 0;
+    CGSize winSize = [CCDirector sharedDirector].winSize;
+    if (x < w) {
+        offsetX = w - x;
+    }else if (x > winSize.width - w) {
+        offsetX = winSize.width - w - x;
+    }
+    if (y < h){
+        offsetY = h - y;
+    }else if (y > winSize.height - h) {
+        offsetY = winSize.height - h - y;
+    }
+    self.revisedOffset = ccpAdd(self.revisedOffset, ccp(offsetX, offsetY));
+
+    self.player.position =
+            ccpAdd(self.revisedOffset,
+                    ccpAdd(self.playerPositionWhenTouchBegin,
+                            ccpSub(self.touchMovedPosition, self.touchBeganPosition)));
+
     [self.player onUpdate:dt];
 }
 
@@ -347,6 +374,7 @@ const int kZOrderScoreLabel = 50;
     self.touchMovedPosition = self.touchBeganPosition;
 
     self.playerPositionWhenTouchBegin = self.player.position;
+    self.revisedOffset = ccp(0, 0);
 }
 
 - (void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
