@@ -175,15 +175,14 @@ const int kZOrderScoreLabel = 50;
     self.scoreLabel.string = [NSString stringWithFormat:@"%d", self.score];
     int x = score / 10000;
 
-    // f(x) = ax^2 + bx + c
+    // f(x) = a / (x + b) + 1
     //   f(0) = 0
-    //   f(30) = 0.5
-    //   f(100) = 0.8
+    //   f(10) = 0.5
+    //   f(infinity) = 1
     // ==>
-    //   a = -0.0001238571
-    //   b = 0.02038571
-    //   c = 0
-    self.k = -0.0001238571 * x * x + 0.02038571 * x;
+    //   a = -10
+    //   b = 10
+    self.k = -10.0f / (x + 10) + 1;
 }
 
 - (void)detectCollision
