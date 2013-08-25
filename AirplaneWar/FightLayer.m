@@ -21,6 +21,8 @@ const int kZOrderScoreLabel = 50;
 @interface FightLayer()
 @property (nonatomic) BOOL gameIsOver;
 @property (nonatomic) BOOL mute;
+@property (nonatomic) float k; // 难度系数
+@property (nonatomic) ccTime dtProduceEnemy;
 
 // player
 @property (nonatomic) Player *player;
@@ -124,7 +126,6 @@ const int kZOrderScoreLabel = 50;
 
     [self setTouchEnabled:TRUE];
 
-    [self schedule:@selector(produceEnemy) interval:1];
     [self schedule:@selector(onUpdate:)];
 
     if (! self.mute) {
@@ -135,6 +136,8 @@ const int kZOrderScoreLabel = 50;
 #pragma mark - game logic
 - (void)onUpdate:(ccTime)dt
 {
+    [self produceEnemy:dt];
+
     // collision and shoot
     if (! self.gameIsOver) {
         [self detectCollision];
@@ -150,7 +153,7 @@ const int kZOrderScoreLabel = 50;
         }
 
         self.score += enemy.score;
-        self.scoreLabel.string = [NSString stringWithFormat:@"%d", self.score];
+        [self updateScore:self.score];
 
         [enemy removeFromParent];
         [diedEnemy addObject:enemy];
@@ -164,6 +167,12 @@ const int kZOrderScoreLabel = 50;
 
     // background
     [self scrollBackground];
+}
+
+- (void)updateScore:(int)score {
+    self.scoreLabel.string = [NSString stringWithFormat:@"%d", self.score];
+    int x = score / 10000;
+    self.k = -0.0001238571 * x * x + 0.02038571 * x;
 }
 
 - (void)detectCollision
@@ -212,9 +221,50 @@ const int kZOrderScoreLabel = 50;
     [self.player onUpdate:dt];
 }
 
-- (void)produceEnemy
+- (void)produceEnemy:(ccTime)dt
 {
-    EnemyModel model = (EnemyModel) (arc4random() % kNumberOfEnemyModel);
+    ccTime minDt = 0.1;
+    ccTime maxDt = 1.0;
+    ccTime actualDt = maxDt - (maxDt - minDt) * self.k;
+    self.dtProduceEnemy += dt;
+    if (self.dtProduceEnemy < actualDt) {
+        return;
+    }
+    self.dtProduceEnemy -= actualDt;
+
+    EnemyModel model; // 飞机型号
+    float speed; // 飞机速度
+
+    int r;
+
+    // 飞机型号
+    float modelTable[][2] = {
+            {20, 30}, // 中飞机出现概率
+            {5, 10}, // 大飞机出现概率
+    };
+    float ratio2 = modelTable[0][0] + (modelTable[0][1] - modelTable[0][0]) * self.k;
+    float ratio3 = modelTable[1][0] + (modelTable[1][1] - modelTable[1][0]) * self.k;
+    float ratio1 = 100 - ratio2 - ratio3;
+    assert(ratio1 >= 0);
+
+    r = arc4random() % 100;
+    if (r < ratio1) {
+        model = kEnemyModel1;
+    }else if (r < ratio1 + ratio2) {
+        model = kEnemyModel2;
+    }else{
+        model = kEnemyModel3;
+    }
+
+    // 速度
+    float speedTable[][2] = { // 速度表格
+            {110, 160},
+            {130, 190},
+            {60, 90}
+    };
+    r = arc4random() % 100;
+    speed = speedTable[model][0] + (speedTable[model][1] - speedTable[model][0]) * r / 100;
+
 
     Enemy *enemy = [Enemy enemyWithModel:model];
     enemy.zOrder = kZOrderEnemy;
@@ -226,11 +276,8 @@ const int kZOrderScoreLabel = 50;
     int x = (int)((arc4random() % (int)(winSize.width - enemy.contentSize.width)) + enemy.contentSize.width/2);
     enemy.position = ccp(x, winSize.height + enemy.contentSize.height/2);
 
-    int minDuration = 3;
-    int maxDuration = 5;
-    int actualDuration = (arc4random() % (maxDuration - minDuration)) + minDuration;
-
-    CCMoveTo *actionMove = [CCMoveTo actionWithDuration:actualDuration
+    ccTime duration = winSize.height / speed;
+    CCMoveTo *actionMove = [CCMoveTo actionWithDuration:duration
                                                position:ccp(enemy.position.x, -enemy.contentSize.height/2)];
     CCCallBlockN *actionMoveDone = [CCCallBlockN actionWithBlock:^(CCNode *node){
         [node removeFromParent];

@@ -27,11 +27,11 @@
             score = 1000;
             break;
         case kEnemyModel2:
-            hp = 4;
+            hp = 8;
             score = 6000;
             break;
         case kEnemyModel3:
-            hp = 10;
+            hp = 18;
             score = 30000;
             break;
         default:
